@@ -149,6 +149,9 @@ public class GardenPlannerCreateGUI extends JFrame{
 
     private void setupUI(){
 
+        gardenHeightSlider.setValue(2);
+        gardenWidthSlider.setValue(2);
+
         gardenPlot.setRowHeight(50);
 
         //List Set up

@@ -1,0 +1,21 @@
+##GARDEN PLANNER 
+#Features
+With this program the user can create a garden plan
+
+1)start by selecting "New Garden" which will take you to the create screen
+
+2)once on create screen you can name your garden at the top
+
+3)use the sliders on the create screen to choose the height and width of your garden
+
+4)select the plant from the list on left, then select the cell on the garden plot table to populate it with
+the selected plant
+
+5)when finished, hit export button bottom right to save your garden plan to an image file for later viewing!
+
+#Known Bugs
+*resizing the table after inputing plants will clear table and lose progress
+*depending on the way you click the jtable cell it allows you to edit it instead of filling with selected plant from the list
+
+#Future features
+*database to hold save files, allow users to open saved file and edit/re-save
