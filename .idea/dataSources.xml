@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="GardenPlannerDB" uuid="9713d61c-c0f4-42ef-84be-74dd8fedf088">
+    <data-source source="LOCAL" name="GardenPlannerDB" uuid="97789116-0622-4270-975d-bb52ac1a00fc">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\Kelsey\IdeaProjects\GardenProject\GardenPlannerDB.sqlite</jdbc-url>
+      <jdbc-url>jdbc:sqlite:GardenPlannerDB.sqlite</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="plantDB [2]" uuid="851bf4c3-488b-4ad4-8fc8-8dc16ccdc0eb">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\Kelsey\IdeaProjects\GardenProject\plantDB</jdbc-url>
       <libraries>
         <library>
           <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/license.txt</url>
@@ -14,12 +20,6 @@
           <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/sqlite-jdbc-3.25.1.jar</url>
         </library>
       </libraries>
-    </data-source>
-    <data-source source="LOCAL" name="GardenPlannerDB" uuid="97789116-0622-4270-975d-bb52ac1a00fc">
-      <driver-ref>sqlite.xerial</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:GardenPlannerDB.sqlite</jdbc-url>
     </data-source>
   </component>
 </project>

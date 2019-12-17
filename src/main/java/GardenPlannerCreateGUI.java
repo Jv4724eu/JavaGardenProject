@@ -1,3 +1,10 @@
+/*
+Configuration of the create Screen gui
+CREATED BY: KELSEY STIFF
+*/
+
+
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -13,11 +20,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.lang.reflect.Array;
-import java.util.Vector;
+
+
+
 
 public class GardenPlannerCreateGUI extends JFrame{
-
     private JPanel mainPanel;
     private JTable gardenPlot;
     private JSlider gardenHeightSlider;
@@ -29,39 +36,29 @@ public class GardenPlannerCreateGUI extends JFrame{
     private JLabel showGardenName;
     private JPanel GardenSpecPanel;
     private JPanel gardenPlotPanel;
-    private JButton CLEARButton;
-    private JButton export;
+    private JButton exportButton;
     private JButton saveButton;
     private Object selection;
     private String gardenNameStr;
-    private Vector columnName;
-
-    //private ImageIcon carrot = new ImageIcon("images/carrot.png");
-
 
 
     GardenPlannerCreateGUI(){
-        gardenPlotName.getText();
+        //GUI window set up
         setContentPane(mainPanel);
         setPreferredSize(new Dimension(1200,800));
         pack();
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
         setupUI();
-
-        gardenHeightSlider.setValue(2);
-        gardenWidthSlider.setValue(2);
-
         listeners();
     }
 
 
-
+    //this method hold all listeners for GUI components
     private void listeners() {
 
-
-
+        //This Listeners gets text from the name text field and displays it in the name jlabel above the garden
+        //The input is also used to name the Document once saved
         gardenPlotName.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -74,6 +71,7 @@ public class GardenPlannerCreateGUI extends JFrame{
             public void changedUpdate(DocumentEvent e) { }
         });
 
+        //resizing the height of the table
         gardenHeightSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -84,6 +82,7 @@ public class GardenPlannerCreateGUI extends JFrame{
             }
         });
 
+        //resizing the width of the table
         gardenWidthSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -93,6 +92,7 @@ public class GardenPlannerCreateGUI extends JFrame{
             }
         });
 
+        //gets selected list item, stores it in a variable
         plants.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -108,28 +108,27 @@ public class GardenPlannerCreateGUI extends JFrame{
             public void mouseExited(MouseEvent e) { }
         });
 
+        //populates selected table cell with selected list item
         gardenPlot.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int row = gardenPlot.rowAtPoint(e.getPoint());
                 int column = gardenPlot.columnAtPoint(e.getPoint());
                 gardenPlot.setValueAt(selection,row,column);
-
             }
             @Override
             public void mousePressed(MouseEvent e) { }
-
             @Override
             public void mouseReleased(MouseEvent e) { }
-
             @Override
             public void mouseEntered(MouseEvent e) { }
-
             @Override
             public void mouseExited(MouseEvent e) { }
         });
 
-        export.addActionListener(new ActionListener() {
+
+        //when export button is clicked, table is saved as an image file
+        exportButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String gardenName = gardenPlotName.getText();
@@ -146,22 +145,9 @@ public class GardenPlannerCreateGUI extends JFrame{
 
             }
         });
-
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String[][] gardenData = tableToArray();
-                String name = gardenPlotName.getText();
-                GardenPlannerDB.createSavedGarden(name,gardenData);
-            }
-        });
-
     }
 
     private void setupUI(){
-
-        gardenHeightSlider.setValue(10);
-        gardenWidthSlider.setValue(10);
 
         gardenPlot.setRowHeight(50);
 
@@ -172,6 +158,15 @@ public class GardenPlannerCreateGUI extends JFrame{
         plantListModel.addElement("Carrot");
         plantListModel.addElement("Pepper");
         plantListModel.addElement("Cucumber");
+        plantListModel.addElement("Tomato");
+        plantListModel.addElement("Zuchinni");
+        plantListModel.addElement("Potato");
+        plantListModel.addElement("Watermelon");
+        plantListModel.addElement("Asparagus");
+        plantListModel.addElement("Lettuce");
+        plantListModel.addElement("Strawberries");
+        plantListModel.addElement("raspberries");
+        plantListModel.addElement("Onion");
 
 
         //Height and width label start at 0 sq ft
@@ -185,7 +180,7 @@ public class GardenPlannerCreateGUI extends JFrame{
         gardenHeightSlider.setMaximum(10);
     }
 
-    //this method created an resizable table based off of user input from Jslider
+    //this method created an resizable table based off of user input from Jsliders
     public void createGardenPlot(){
         int numRows = gardenHeightSlider.getValue();
         int numCols = gardenWidthSlider.getValue();
@@ -193,10 +188,12 @@ public class GardenPlannerCreateGUI extends JFrame{
         gardenPlot.setModel(gardenPlotModel);
     }
 
+
+    //this method creates an image from a Jtable
     public static BufferedImage createImageOfGardenPlot(JTable gardenPlot) {
             JTableHeader tableHeader = gardenPlot.getTableHeader();
-            int totalWidth = tableHeader.getWidth() + gardenPlot.getWidth();
-            int totalHeight = tableHeader.getHeight() + gardenPlot.getHeight();
+            int totalWidth = tableHeader.getWidth() + gardenPlot.getWidth(); //gets width of table assigns it to int variable
+            int totalHeight = tableHeader.getHeight() + gardenPlot.getHeight(); //gets height of table assigns it to int variable
             BufferedImage gardenPlotImage = new BufferedImage(totalWidth, totalHeight,
                     BufferedImage.TYPE_INT_RGB);
             Graphics2D g2D = (Graphics2D) gardenPlotImage.getGraphics();
@@ -206,51 +203,11 @@ public class GardenPlannerCreateGUI extends JFrame{
             return gardenPlotImage;
         }
 
+        //writes image of jtable to a file
         public File writeGardenImageToFile(BufferedImage gardenPlotImage) throws IOException {
             String fileName = gardenPlotName.getText();
             File file = new File(fileName + ".BMP");
             ImageIO.write(gardenPlotImage, "bmp", file);
             return file;
         }
-
-        public String[][] tableToArray() {
-
-            DefaultTableModel gardenTableModel = (DefaultTableModel) gardenPlot.getModel();
-            String[][] gardenTableData = new String[gardenTableModel.getRowCount()][gardenTableModel.getColumnCount()];
-            for (int r = 0; r < gardenTableModel.getRowCount(); r++) {
-                for (int c = 0; c < gardenTableModel.getColumnCount(); c++) {
-                    String plant = gardenTableModel.getValueAt(r, c).toString();
-                    gardenTableData[r][c] = plant;
-                }
-            }
-            return gardenTableData;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
