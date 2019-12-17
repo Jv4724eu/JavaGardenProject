@@ -8,7 +8,7 @@ public class GardenPlannerHomeGUI extends JFrame {
     private JButton openSavedGardenButton;
     private JPanel homeScreen;
     private JButton newGardenButton;
-    private JTable table1;
+    private JTable viewSavedGardens;
 
 
     GardenPlannerHomeGUI(){

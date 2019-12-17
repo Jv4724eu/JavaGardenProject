@@ -12,9 +12,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.Vector;
 
 public class GardenPlannerCreateGUI extends JFrame{
 
@@ -30,9 +30,12 @@ public class GardenPlannerCreateGUI extends JFrame{
     private JPanel GardenSpecPanel;
     private JPanel gardenPlotPanel;
     private JButton CLEARButton;
+    private JButton export;
     private JButton saveButton;
     private Object selection;
     private String gardenNameStr;
+    private Vector columnName;
+
     //private ImageIcon carrot = new ImageIcon("images/carrot.png");
 
 
@@ -95,26 +98,14 @@ public class GardenPlannerCreateGUI extends JFrame{
             public void mouseClicked(MouseEvent e) {
                 selection = plants.getSelectedValue();
             }
-
             @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
+            public void mousePressed(MouseEvent e) { }
             @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
+            public void mouseReleased(MouseEvent e) { }
             @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
+            public void mouseEntered(MouseEvent e) { }
             @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
+            public void mouseExited(MouseEvent e) { }
         });
 
         gardenPlot.addMouseListener(new MouseListener() {
@@ -125,24 +116,33 @@ public class GardenPlannerCreateGUI extends JFrame{
                 gardenPlot.setValueAt(selection,row,column);
 
             }
+            @Override
+            public void mousePressed(MouseEvent e) { }
 
             @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
+            public void mouseReleased(MouseEvent e) { }
 
             @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
+            public void mouseEntered(MouseEvent e) { }
 
             @Override
-            public void mouseEntered(MouseEvent e) {
+            public void mouseExited(MouseEvent e) { }
+        });
 
-            }
-
+        export.addActionListener(new ActionListener() {
             @Override
-            public void mouseExited(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
+                String gardenName = gardenPlotName.getText();
+                if (gardenName == null || gardenName.trim().equals("")) {
+                    JOptionPane.showMessageDialog(rootPane, "Enter a Name for your garden");
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, gardenName + " was saved as an Image");
+                    try {
+                        writeGardenImageToFile(createImageOfGardenPlot(gardenPlot));
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
 
             }
         });
@@ -150,16 +150,11 @@ public class GardenPlannerCreateGUI extends JFrame{
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    writeGardenImageToFile(createImageOfGardenPlot(gardenPlot));
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-
+                String[][] gardenData = tableToArray();
+                String name = gardenPlotName.getText();
+                GardenPlannerDB.createSavedGarden(name,gardenData);
             }
         });
-
-
 
     }
 
@@ -188,8 +183,6 @@ public class GardenPlannerCreateGUI extends JFrame{
         gardenWidthSlider.setMaximum(10);
         gardenHeightSlider.setMinimum(1);
         gardenHeightSlider.setMaximum(10);
-
-
     }
 
     //this method created an resizable table based off of user input from Jslider
@@ -215,21 +208,47 @@ public class GardenPlannerCreateGUI extends JFrame{
 
         public File writeGardenImageToFile(BufferedImage gardenPlotImage) throws IOException {
             String fileName = gardenPlotName.getText();
-            File file = new File(fileName + ".png");
-            ImageIO.write(gardenPlotImage, "png", file);
+            File file = new File(fileName + ".BMP");
+            ImageIO.write(gardenPlotImage, "bmp", file);
             return file;
         }
 
-        public void saveGarden(File gardenImage){
-            String gardenName = gardenPlotName.getText();
-            if (gardenName == null || gardenName.trim().equals("")) {
-                JOptionPane.showMessageDialog(rootPane, "Please enter a title for the new movie");
-                return;
+        public String[][] tableToArray() {
+
+            DefaultTableModel gardenTableModel = (DefaultTableModel) gardenPlot.getModel();
+            String[][] gardenTableData = new String[gardenTableModel.getRowCount()][gardenTableModel.getColumnCount()];
+            for (int r = 0; r < gardenTableModel.getRowCount(); r++) {
+                for (int c = 0; c < gardenTableModel.getColumnCount(); c++) {
+                    String plant = gardenTableModel.getValueAt(r, c).toString();
+                    gardenTableData[r][c] = plant;
+                }
             }
-
-           // GardenPlannerDB.addSavedGarden(gardenName,gardenImage);
-
+            return gardenTableData;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
